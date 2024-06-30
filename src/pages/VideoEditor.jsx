@@ -13,14 +13,18 @@ import placeholder from "../assets/placeholder_pc.png";
 import VideoPlayer from "../components/VideoPlayer";
 import MultiRangeSlider from "../components/MultiRangeSlider";
 import VideoConversionButton from "../components/VideoConversionButton";
+import { sliderValueToVideoTime } from "../utils/utils";
 
 const ffmpeg = new FFmpeg({ log: true });
 
 const VideoEditor = () => {
   const uploadFile = useRef("");
   const [ffmpegLoaded, setFFmpegLoaded] = useState(false);
-  const [sliderValues, setSliderValues] = useState([0, 100]);
   const [videoFile, setVideoFile] = useState();
+
+  const [sliderValues, setSliderValues] = useState([0, 100]);
+  const [videoPlayerState, setVideoPlayerState] = useState();
+  const [videoPlayer, setVideoPlayer] = useState();
 
   useEffect(() => {
     ffmpeg.load().then(() => {
@@ -28,12 +32,43 @@ const VideoEditor = () => {
     });
   }, []);
 
+  useEffect(() => {
+    const min = sliderValues[0];
+
+    if (min !== undefined && videoPlayerState && videoPlayer) {
+      videoPlayer.seek(sliderValueToVideoTime(videoPlayerState.duration, min));
+    }
+  }, [sliderValues]);
+
+  useEffect(() => {
+    if (videoPlayer && videoPlayerState) {
+      const [min, max] = sliderValues;
+
+      const minTime = sliderValueToVideoTime(videoPlayerState.duration, min);
+      const maxTime = sliderValueToVideoTime(videoPlayerState.duration, max);
+
+      if (videoPlayerState.currentTime < minTime) {
+        videoPlayer.seek(minTime);
+      }
+      if (videoPlayerState.currentTime > maxTime) {
+        videoPlayer.seek(minTime);
+      }
+    }
+  }, [videoPlayerState]);
+
+  useEffect(() => {
+    if (!videoFile) {
+      setVideoPlayerState(undefined);
+    }
+  }, [videoFile]);
+
   return (
     <Container>
       {/* 비디오 파일이 있는 경우 - reupload 활성화 */}
       {videoFile && (
         <ReUploadContainer>
           <input
+            onChange={(e) => setVideoFile(e.target.files[0])}
             type="file"
             accept="video/*"
             style={{ display: "none" }}
@@ -46,13 +81,22 @@ const VideoEditor = () => {
       )}
 
       {/* 파일 있으면 재생, 없으면 업로드 버튼 활성화 */}
-      {!videoFile ? (
-        <VideoPlayer />
+      {videoFile ? (
+        <VideoPlayer
+          src={videoFile}
+          onPlayerChange={(videoPlayer) => {
+            setVideoPlayer(videoPlayer);
+          }}
+          onChange={(videoPlayerState) => {
+            setVideoPlayerState(videoPlayerState);
+          }}
+        />
       ) : (
         <>
           <Placeholder src={placeholder} alt="비디오를 업로드 해주세요" />
           <UploadContainer>
             <input
+              onChange={(e) => setVideoFile(e.target.files[0])}
               type="file"
               accept="video/*"
               style={{ display: "none" }}
@@ -67,7 +111,7 @@ const VideoEditor = () => {
       )}
 
       {/* 파일이 있을 경우 슬라이더 보여주기 */}
-      {!videoFile && (
+      {videoFile && (
         <>
           <MultiRangeSlider
             min={0}

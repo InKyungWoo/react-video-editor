@@ -3,9 +3,33 @@ import { Player, BigPlayButton, LoadingSpinner, ControlBar } from "video-react";
 import styled from "styled-components";
 import "video-react/dist/video-react.css";
 
-const VideoPlayer = ({ src }) => {
+const VideoPlayer = ({
+  src,
+  onPlayerChange = () => {},
+  onChange = () => {},
+  startTime = undefined,
+}) => {
   const [player, setPlayer] = useState();
+  const [playerState, setPlayerState] = useState(undefined);
   const [source, setSource] = useState();
+
+  useEffect(() => {
+    setSource(URL.createObjectURL(src));
+  }, [src]);
+
+  useEffect(() => {
+    if (playerState) {
+      onChange(playerState);
+    }
+  }, [playerState]);
+
+  useEffect(() => {
+    onPlayerChange(player);
+
+    if (player) {
+      player.subscribeToStateChange(setPlayerState);
+    }
+  }, [player]);
 
   return (
     <VideoContainer>
@@ -13,10 +37,11 @@ const VideoPlayer = ({ src }) => {
         ref={(player) => {
           setPlayer(player);
         }}
+        startTime={startTime}
         src={source}
       >
         <source src={source} />
-        <CustomBigPlayButton position="center" />
+        <BigPlayButton position="center" />
         <CustomLoadingSpinner />
         <ControlBar disableCompletely />
       </Player>
@@ -29,12 +54,8 @@ export default VideoPlayer;
 const VideoContainer = styled.div`
   position: relative;
   width: 100%;
-  max-width: 800px;
+  max-width: 1024px;
   margin: 0 auto;
-`;
-
-const CustomBigPlayButton = styled(BigPlayButton)`
-  background-color: rgba(0, 0, 0, 0.5);
 `;
 
 const CustomLoadingSpinner = styled(LoadingSpinner)`
