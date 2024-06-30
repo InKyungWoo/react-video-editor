@@ -26,6 +26,9 @@ const VideoEditor = () => {
   const [videoPlayerState, setVideoPlayerState] = useState();
   const [videoPlayer, setVideoPlayer] = useState();
 
+  const [processing, setProcessing] = useState(false);
+  const [showModal, setShowModal] = useState(false);
+
   useEffect(() => {
     ffmpeg.load().then(() => {
       setFFmpegLoaded(true);
@@ -121,9 +124,51 @@ const VideoEditor = () => {
             }}
           />
 
-          <VideoConversionButton />
+          <VideoConversionButton
+            onConversionStart={() => {
+              setProcessing(true);
+            }}
+            onConversionEnd={() => {
+              setProcessing(false);
+              setShowModal(true);
+            }}
+            ffmpeg={ffmpeg}
+            videoPlayerState={videoPlayerState}
+            sliderValues={sliderValues}
+            videoFile={videoFile}
+          />
         </>
       )}
+      <StyledToastContainer>
+        <StyledToast
+          onClose={() => setShowModal(false)}
+          show={showModal}
+          delay={2000}
+          autohide
+        >
+          <StyledToastHeader closeButton={false}>
+            <strong className="me-auto">Video Editor</strong>
+          </StyledToastHeader>
+          <StyledToastBody>내보내기가 완료되었습니다.</StyledToastBody>
+        </StyledToast>
+      </StyledToastContainer>
+
+      <StyledModal
+        show={processing}
+        onHide={() => setProcessing(false)}
+        backdrop="static"
+        keyboard={false}
+        centered
+        size="sm"
+      >
+        <ModalContent>
+          <Spinner animation="border" role="status">
+            <span className="visually-hidden">Loading...</span>
+          </Spinner>
+
+          <ModalText>내보내기가 진행중입니다.</ModalText>
+        </ModalContent>
+      </StyledModal>
     </Container>
   );
 };
@@ -190,4 +235,43 @@ const UploadButton = styled(BootstrapButton)`
     background: #5e88f4 !important;
     border: none !important;
   }
+`;
+
+const StyledToastContainer = styled.div`
+  z-index: 1;
+  top: 20px;
+  right: 20px;
+`;
+
+const StyledToast = styled(Toast)`
+  background-color: #343a40;
+  color: #fff;
+`;
+
+const StyledToastHeader = styled(Toast.Header)`
+  background-color: #343a40;
+  color: #fff;
+`;
+
+const StyledToastBody = styled(Toast.Body)`
+  background-color: #343a40;
+  color: #fff;
+`;
+
+const StyledModal = styled(Modal)`
+  .modal-content {
+    background-color: #343a40;
+    color: #fff;
+  }
+`;
+
+const ModalContent = styled.div`
+  text-align: center;
+`;
+
+const ModalText = styled.p`
+  margin-top: 16px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #c8c8c8;
 `;
