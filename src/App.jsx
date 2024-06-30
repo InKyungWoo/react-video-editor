@@ -1,12 +1,19 @@
 import React from "react";
-import VideoEditor from "./pages/VideoEditor";
+
 import GlobalStyle from "./styles/globalStyles";
+import Header from "./components/Header";
+import VideoEditor from "./pages/VideoEditor";
+import Footer from "./components/Footer";
 
 function App() {
   return (
     <>
       <GlobalStyle />
-      <VideoEditor />
+      <Header />
+      <div className="container">
+        <VideoEditor />
+      </div>
+      <Footer />
     </>
   );
 }
