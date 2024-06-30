@@ -84,8 +84,9 @@ export default MultiRangeSlider;
 
 const SliderContainer = styled.div`
   position: relative;
-  width: 350px;
-  margin-top: 30;
+  width: 100%;
+  max-width: 1024px; /* 최대 너비 설정 */
+  margin-top: 1rem;
   margin-bottom: 3rem;
   display: flex;
   justify-content: center;
@@ -116,12 +117,13 @@ const SliderRange = styled.div`
 const SliderInput = styled.input.attrs((props) => ({
   type: "range",
 }))`
-  /* -webkit-appearance: none; */
+  -webkit-appearance: none;
   -webkit-tap-highlight-color: transparent;
   position: absolute;
   pointer-events: none;
   height: 0;
-  width: 350px;
+  width: 100%; /* 컨테이너의 너비에 맞추기 */
+  max-width: 1024px; /* 최대 너비 설정 */
   outline: none;
   z-index: ${(props) => props.zIndex};
 
