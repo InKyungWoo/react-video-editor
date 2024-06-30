@@ -2,6 +2,23 @@ import React from "react";
 import styled from "styled-components";
 import logo from "../assets/video-editor.png";
 
+const Header = () => {
+  return (
+    <Container>
+      <Content>
+        <Logo src={logo} alt="Video Editor Logo" />
+        <Nav>
+          <NavItem href="#video-edit">비디오 메뉴1</NavItem>
+          <NavItem href="#video-edit">비디오 메뉴2</NavItem>
+          <Button>비디오 메뉴 3</Button>
+        </Nav>
+      </Content>
+    </Container>
+  );
+};
+
+export default Header;
+
 const Container = styled.header`
   /* display: flex; */
 
@@ -13,7 +30,7 @@ const Container = styled.header`
 `;
 
 const Content = styled.div`
-  max-width: 1280px;
+  max-width: 1024px;
   margin: 0 auto;
   display: flex;
   align-items: center;
@@ -53,20 +70,3 @@ const Button = styled.button`
     background-color: #0056b3;
   }
 `;
-
-const Header = () => {
-  return (
-    <Container>
-      <Content>
-        <Logo src={logo} alt="Video Editor Logo" />
-        <Nav>
-          <NavItem href="#video-edit">비디오 메뉴1</NavItem>
-          <NavItem href="#video-edit">비디오 메뉴2</NavItem>
-          <Button>비디오 메뉴 3</Button>
-        </Nav>
-      </Content>
-    </Container>
-  );
-};
-
-export default Header;

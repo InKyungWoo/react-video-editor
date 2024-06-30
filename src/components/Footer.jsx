@@ -1,6 +1,29 @@
 import React from "react";
 import styled from "styled-components";
 
+const Footer = () => {
+  return (
+    <Container>
+      <Content>
+        <ContactInfo>
+          Tel. 02-2023-2025
+          <br />
+          E-mail. chacha_@hufs.ac.kr
+        </ContactInfo>
+        <Copyright>&copy; 2024 Video Editor. All rights reserved.</Copyright>
+
+        <Links>
+          <SocialLink href="#">Github</SocialLink>
+          <SocialLink href="#">Notion</SocialLink>
+          <SocialLink href="#">Instagram</SocialLink>
+        </Links>
+      </Content>
+    </Container>
+  );
+};
+
+export default Footer;
+
 const Container = styled.footer`
   border-top: 1px solid #ddd;
   width: 100%;
@@ -12,7 +35,7 @@ const Container = styled.footer`
 `;
 
 const Content = styled.div`
-  max-width: 1280px;
+  max-width: 1024px;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -44,26 +67,3 @@ const SocialLink = styled.a`
     color: #007bff;
   }
 `;
-
-const Footer = () => {
-  return (
-    <Container>
-      <Content>
-        <ContactInfo>
-          Tel. 02-2023-2025
-          <br />
-          E-mail. chacha_@hufs.ac.kr
-        </ContactInfo>
-        <Copyright>&copy; 2024 Video Editor. All rights reserved.</Copyright>
-
-        <Links>
-          <SocialLink href="#">Github</SocialLink>
-          <SocialLink href="#">Notion</SocialLink>
-          <SocialLink href="#">Instagram</SocialLink>
-        </Links>
-      </Content>
-    </Container>
-  );
-};
-
-export default Footer;
