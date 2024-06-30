@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import logo from "../assets/video-editor.png";
+import logo from "../assets/logo_light.png";
 
 const Header = () => {
   return (
