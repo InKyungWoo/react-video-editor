@@ -12,6 +12,7 @@ import {
 import placeholder from "../assets/placeholder_pc.png";
 import VideoPlayer from "../components/VideoPlayer";
 import MultiRangeSlider from "../components/MultiRangeSlider";
+import VideoConversionButton from "../components/VideoConversionButton";
 
 const ffmpeg = new FFmpeg({ log: true });
 
@@ -45,7 +46,7 @@ const VideoEditor = () => {
       )}
 
       {/* 파일 있으면 재생, 없으면 업로드 버튼 활성화 */}
-      {videoFile ? (
+      {!videoFile ? (
         <VideoPlayer />
       ) : (
         <>
@@ -67,13 +68,17 @@ const VideoEditor = () => {
 
       {/* 파일이 있을 경우 슬라이더 보여주기 */}
       {!videoFile && (
-        <MultiRangeSlider
-          min={0}
-          max={100}
-          onChange={({ min, max }) => {
-            setSliderValues([min, max]);
-          }}
-        />
+        <>
+          <MultiRangeSlider
+            min={0}
+            max={100}
+            onChange={({ min, max }) => {
+              setSliderValues([min, max]);
+            }}
+          />
+
+          <VideoConversionButton />
+        </>
       )}
     </Container>
   );
