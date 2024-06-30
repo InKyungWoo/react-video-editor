@@ -1,16 +1,14 @@
-import { useState } from 'react'
-import './App.css'
+import React from "react";
+import VideoEditor from "./pages/VideoEditor";
+import GlobalStyle from "./styles/globalStyles";
 
 function App() {
-  const [count, setCount] = useState(0)
-
   return (
     <>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+      <GlobalStyle />
+      <VideoEditor />
     </>
-  )
+  );
 }
 
-export default App
+export default App;
