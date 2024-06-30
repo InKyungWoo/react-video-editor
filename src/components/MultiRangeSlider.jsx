@@ -85,6 +85,10 @@ export default MultiRangeSlider;
 const SliderContainer = styled.div`
   position: relative;
   width: 350px;
+  margin-top: 30;
+  margin-bottom: 3rem;
+  display: flex;
+  justify-content: center;
 `;
 
 const Slider = styled.div`
