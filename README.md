@@ -29,7 +29,7 @@
 ## 사용한 라이브러리
 
 - 빌드 및 개발 도구
-  - Vite
+  - ~Vite~
   - React
 - UI 및 스타일링
   - [react-bootstrap](https://react-bootstrap.netlify.app/docs/getting-started/introduction)
