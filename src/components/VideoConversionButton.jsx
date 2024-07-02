@@ -4,8 +4,10 @@ import { Button } from "react-bootstrap";
 import { FFmpeg } from "@ffmpeg/ffmpeg";
 import { fetchFile } from "@ffmpeg/util";
 import { readFileAsBase64, sliderValueToVideoTime } from "../utils/utils";
+
 import out from "../assets/icons/out.svg";
 import dark_download from "../assets/icons/dark_download.svg";
+import audio from "../assets/icons/audio.svg";
 
 function VideoConversionButton({
   videoPlayerState,
@@ -14,6 +16,7 @@ function VideoConversionButton({
   onConversionStart = () => {},
   onConversionEnd = () => {},
   onGifCreated = () => {},
+  onAudioExtracted = () => {},
 }) {
   // Initialize ffmpeg instance
   const [ffmpeg, setFfmpeg] = useState(null);
@@ -28,6 +31,7 @@ function VideoConversionButton({
     loadFfmpeg();
   }, []);
 
+  // GIF 내보내기
   const convertToGif = async () => {
     // starting the conversion process
     onConversionStart(true);
@@ -36,7 +40,6 @@ function VideoConversionButton({
     const outputFileName = "output.gif";
 
     // writing the video file to memory
-    // ffmpeg.FS("writeFile", inputFileName, await fetchFile(videoFile));
     const inputData = await fetchFile(videoFile);
     await ffmpeg.writeFile(inputFileName, inputData);
 
@@ -57,10 +60,7 @@ function VideoConversionButton({
     ]);
 
     // reading the resulting file
-    // const data = ffmpeg.FS("readFile", outputFileName);
     const data = await ffmpeg.readFile(outputFileName);
-
-    // converting the GIF file created by FFmpeg to a valid image URL
     const gifUrl = URL.createObjectURL(
       new Blob([data.buffer], { type: "image/gif" })
     );
@@ -74,13 +74,13 @@ function VideoConversionButton({
     onConversionEnd(false);
   };
 
+  // 비디오 자르기
   const onCutTheVideo = async () => {
     onConversionStart(true);
 
     const inputFileName = "input.mp4";
     const outputFileName = "output.mp4";
 
-    // ffmpeg.FS("writeFile", "input.mp4", await fetchFile(videoFile));
     const inputData = await fetchFile(videoFile);
     await ffmpeg.writeFile(inputFileName, inputData);
 
@@ -88,7 +88,6 @@ function VideoConversionButton({
     const minTime = sliderValueToVideoTime(videoPlayerState.duration, min);
     const maxTime = sliderValueToVideoTime(videoPlayerState.duration, max);
 
-    // await ffmpeg.run -> exec
     await ffmpeg.exec([
       "-ss",
       `${minTime}`,
@@ -101,7 +100,6 @@ function VideoConversionButton({
       outputFileName,
     ]);
 
-    // const data = ffmpeg.FS("readFile", "output.mp4");
     const data = await ffmpeg.readFile(outputFileName);
     const dataURL = await readFileAsBase64(
       new Blob([data.buffer], { type: "video/mp4" })
@@ -115,11 +113,60 @@ function VideoConversionButton({
     onConversionEnd(false);
   };
 
+  // 음성 추출하기
+  const extractAudio = async () => {
+    onConversionStart(true);
+
+    const inputFileName = "input.mp4";
+    const outputFileName = "output.mp3";
+
+    const inputData = await fetchFile(videoFile);
+    await ffmpeg.writeFile(inputFileName, inputData);
+
+    const [min, max] = sliderValues;
+    const minTime = sliderValueToVideoTime(videoPlayerState.duration, min);
+    const maxTime = sliderValueToVideoTime(videoPlayerState.duration, max);
+
+    await ffmpeg.exec([
+      "-ss",
+      `${minTime}`,
+      "-i",
+      inputFileName,
+      "-t",
+      `${maxTime - minTime}`,
+      "-ab",
+      "320k",
+      "-ar",
+      "44100",
+      "-y",
+      outputFileName,
+    ]);
+
+    const data = await ffmpeg.readFile(outputFileName);
+    const audioUrl = URL.createObjectURL(
+      new Blob([data.buffer], { type: "audio/mpeg" })
+    );
+
+    const link = document.createElement("a");
+    link.href = audioUrl;
+    link.setAttribute("download", "");
+    link.click();
+
+    onAudioExtracted();
+
+    onConversionEnd(false);
+  };
+
   return (
     <Container>
       <StyledButton onClick={convertToGif}>
         <img src={out} alt="GIF 내보내기" />
         <p>GIF 내보내기</p>
+      </StyledButton>
+
+      <StyledButton onClick={extractAudio}>
+        <img src={audio} alt="음성 파일 추출하기" />
+        <p>음성 파일 추출하기</p>
       </StyledButton>
 
       <StyledButton onClick={onCutTheVideo}>
@@ -141,8 +188,8 @@ const Container = styled.div`
 const StyledButton = styled(Button)`
   width: 50%;
   border-radius: 8px;
-  /* background: #383838; */
   color: #fff;
+  background-color: #f5f5f5;
   padding: 16px 8px;
   font-size: 16px;
   font-weight: 700;
