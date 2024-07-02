@@ -1,19 +1,16 @@
 import React, { useState, useRef, useEffect } from "react";
 import styled from "styled-components";
 import { FFmpeg } from "@ffmpeg/ffmpeg";
-import {
-  Button as BootstrapButton,
-  Modal,
-  Spinner,
-  Toast,
-  ToastContainer,
-} from "react-bootstrap";
+import { Button as BootstrapButton } from "react-bootstrap";
 
 import placeholder from "../assets/placeholder_pc.png";
 import VideoPlayer from "./VideoPlayer";
 import Slider from "./Slider";
 import VideoConversionButton from "./VideoConversionButton";
 import { sliderValueToVideoTime } from "../utils/utils";
+
+import ModalComponent from "./ModalComponent";
+import ToastComponent from "./ToastComponent";
 
 const ffmpeg = new FFmpeg({ log: true });
 
@@ -27,7 +24,7 @@ const VideoEditor = () => {
   const [videoPlayer, setVideoPlayer] = useState();
 
   const [processing, setProcessing] = useState(false);
-  const [showModal, setShowModal] = useState(false);
+  const [showToast, setShowToast] = useState(false);
 
   useEffect(() => {
     ffmpeg.load().then(() => {
@@ -130,7 +127,7 @@ const VideoEditor = () => {
             }}
             onConversionEnd={() => {
               setProcessing(false);
-              setShowModal(true);
+              setShowToast(true);
             }}
             ffmpeg={ffmpeg}
             videoPlayerState={videoPlayerState}
@@ -139,36 +136,9 @@ const VideoEditor = () => {
           />
         </>
       )}
-      <StyledToastContainer>
-        <StyledToast
-          onClose={() => setShowModal(false)}
-          show={showModal}
-          delay={2000}
-          autohide
-        >
-          <StyledToastHeader closeButton={false}>
-            <strong className="me-auto">Video Editor</strong>
-          </StyledToastHeader>
-          <StyledToastBody>내보내기가 완료되었습니다.</StyledToastBody>
-        </StyledToast>
-      </StyledToastContainer>
 
-      <StyledModal
-        show={processing}
-        onHide={() => setProcessing(false)}
-        backdrop="static"
-        keyboard={false}
-        centered
-        size="sm"
-      >
-        <ModalContent>
-          <Spinner animation="border" role="status">
-            <span className="visually-hidden">Loading...</span>
-          </Spinner>
-
-          <ModalText>내보내기가 진행중입니다.</ModalText>
-        </ModalContent>
-      </StyledModal>
+      <ToastComponent showToast={showToast} setShowToast={setShowToast} />
+      <ModalComponent processing={processing} setProcessing={setProcessing} />
     </Container>
   );
 };
@@ -190,7 +160,7 @@ const ReUploadContainer = styled.div`
 `;
 
 const ReUploadButton = styled(BootstrapButton)`
-  width: 30%;
+  width: 25%;
   border-radius: 8px;
   background: #383838;
   color: #fff;
@@ -235,43 +205,4 @@ const UploadButton = styled(BootstrapButton)`
     background: #5e88f4 !important;
     border: none !important;
   }
-`;
-
-const StyledToastContainer = styled.div`
-  z-index: 1;
-  top: 20px;
-  right: 20px;
-`;
-
-const StyledToast = styled(Toast)`
-  background-color: #343a40;
-  color: #fff;
-`;
-
-const StyledToastHeader = styled(Toast.Header)`
-  background-color: #343a40;
-  color: #fff;
-`;
-
-const StyledToastBody = styled(Toast.Body)`
-  background-color: #343a40;
-  color: #fff;
-`;
-
-const StyledModal = styled(Modal)`
-  .modal-content {
-    background-color: #343a40;
-    color: #fff;
-  }
-`;
-
-const ModalContent = styled.div`
-  text-align: center;
-`;
-
-const ModalText = styled.p`
-  margin-top: 16px;
-  font-size: 14px;
-  font-weight: 600;
-  color: #c8c8c8;
 `;
