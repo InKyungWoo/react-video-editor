@@ -25,13 +25,16 @@ const VideoEditor = () => {
 
   const [processing, setProcessing] = useState(false);
   const [showToast, setShowToast] = useState(false);
+  const [progress, setProgress] = useState(0);
 
+  // ffmpeg 로딩 상태 업데이트
   useEffect(() => {
     ffmpeg.load().then(() => {
       setFFmpegLoaded(true);
     });
   }, []);
 
+  // 비디오 재생 시간 설정
   useEffect(() => {
     const min = sliderValues[0];
 
@@ -40,6 +43,7 @@ const VideoEditor = () => {
     }
   }, [sliderValues]);
 
+  // 비디오 재생 범위 설정
   useEffect(() => {
     if (videoPlayer && videoPlayerState) {
       const [min, max] = sliderValues;
@@ -56,11 +60,24 @@ const VideoEditor = () => {
     }
   }, [videoPlayerState]);
 
+  // 비디오 파일이 없으면 비디오 플레이어 상태 초기화
   useEffect(() => {
     if (!videoFile) {
       setVideoPlayerState(undefined);
     }
   }, [videoFile]);
+
+  // 변환 진행 상태를 반영하여 ProgressBar 갱신
+  useEffect(() => {
+    const timer = setInterval(() => {
+      if (processing) {
+        setProgress((prevProgress) =>
+          prevProgress >= 100 ? 0 : prevProgress + 10
+        );
+      }
+    }, 1000);
+    return () => clearInterval(timer);
+  }, [processing]);
 
   return (
     <Container>
@@ -128,6 +145,7 @@ const VideoEditor = () => {
             onConversionEnd={() => {
               setProcessing(false);
               setShowToast(true);
+              setProgress(0); // 변환 완료 후 진행 상태 초기화
             }}
             ffmpeg={ffmpeg}
             videoPlayerState={videoPlayerState}
@@ -138,7 +156,11 @@ const VideoEditor = () => {
       )}
 
       <ToastComponent showToast={showToast} setShowToast={setShowToast} />
-      <ModalComponent processing={processing} setProcessing={setProcessing} />
+      <ModalComponent
+        processing={processing}
+        setProcessing={setProcessing}
+        progress={progress}
+      />
     </Container>
   );
 };
