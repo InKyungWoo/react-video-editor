@@ -13,9 +13,13 @@ const Footer = () => {
         <Copyright>&copy; 2024 Video Editor. All rights reserved.</Copyright>
 
         <Links>
-          <SocialLink href="#">Github</SocialLink>
-          <SocialLink href="#">Notion</SocialLink>
-          <SocialLink href="#">Instagram</SocialLink>
+          <SocialLink href="https://github.com/InKyungWoo">Github</SocialLink>
+          <SocialLink href="https://inkyungwoo.notion.site/Inkyung-s-Blog-e5010485d0164849a105aec5eb80a5c4?pvs=4">
+            Notion
+          </SocialLink>
+          <SocialLink href="https://www.instagram.com/inkyung._.chacha/">
+            Instagram
+          </SocialLink>
         </Links>
       </Content>
     </Container>
@@ -43,12 +47,12 @@ const Content = styled.div`
 `;
 
 const ContactInfo = styled.p`
-  color: #666;
+  color: #888;
   font-size: 0.9rem;
 `;
 
 const Copyright = styled.p`
-  color: #666;
+  color: #555;
   font-size: 0.9rem;
 `;
 
@@ -59,7 +63,7 @@ const Links = styled.div`
 
 const SocialLink = styled.a`
   text-decoration: none;
-  color: #333;
+  color: #91adf4;
   font-size: 1.2rem;
   transition: color 0.3s;
 
