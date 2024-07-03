@@ -21,6 +21,12 @@ const VideoPlayer = ({
   }, [src]);
 
   useEffect(() => {
+    if (playerState) {
+      onChange(playerState);
+    }
+  }, [playerState]);
+
+  useEffect(() => {
     onPlayerChange(player);
 
     if (player) {
