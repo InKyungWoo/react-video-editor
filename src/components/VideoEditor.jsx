@@ -145,7 +145,7 @@ const VideoEditor = () => {
             onConversionEnd={() => {
               setProcessing(false);
               setShowToast(true);
-              setProgress(0); // 변환 완료 후 진행 상태 초기화
+              setProgress(0);
             }}
             ffmpeg={ffmpeg}
             videoPlayerState={videoPlayerState}

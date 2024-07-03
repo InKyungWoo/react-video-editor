@@ -13,23 +13,38 @@ const VideoPlayer = ({
   const [playerState, setPlayerState] = useState(undefined);
   const [source, setSource] = useState();
 
+  const [currentTime, setCurrentTime] = useState(0);
+  const [totalDuration, setTotalDuration] = useState(0);
+
   useEffect(() => {
     setSource(URL.createObjectURL(src));
   }, [src]);
 
   useEffect(() => {
-    if (playerState) {
-      onChange(playerState);
-    }
-  }, [playerState]);
-
-  useEffect(() => {
     onPlayerChange(player);
 
     if (player) {
+      player.subscribeToStateChange(handleStateChange);
       player.subscribeToStateChange(setPlayerState);
+      player.load();
     }
   }, [player]);
+
+  const handleStateChange = (state, prevState) => {
+    if (state.duration !== totalDuration) {
+      setTotalDuration(state.duration);
+    }
+    setCurrentTime(state.currentTime);
+  };
+
+  const formatTime = (seconds) => {
+    if (isNaN(seconds)) {
+      return "00:00";
+    }
+    const min = Math.floor(seconds / 60);
+    const sec = Math.floor(seconds % 60);
+    return `${String(min).padStart(2, "0")}:${String(sec).padStart(2, "0")}`;
+  };
 
   return (
     <VideoContainer>
@@ -44,6 +59,9 @@ const VideoPlayer = ({
         <BigPlayButton position="center" />
         <CustomLoadingSpinner />
         <ControlBar disableCompletely />
+        <TimeDisplay>
+          {formatTime(currentTime)} / {formatTime(totalDuration)}
+        </TimeDisplay>
       </Player>
     </VideoContainer>
   );
@@ -63,4 +81,15 @@ const CustomLoadingSpinner = styled(LoadingSpinner)`
     width: 50px;
     height: 50px;
   }
+`;
+
+const TimeDisplay = styled.div`
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+  padding: 5px;
+  background-color: #555;
+  color: #fff;
+  font-size: 14px;
+  z-index: 1;
 `;
