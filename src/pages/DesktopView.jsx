@@ -4,14 +4,14 @@ import Header from "../components/Header";
 import VideoEditor from "../components/VideoEditor";
 import Footer from "../components/Footer";
 
-const DesktopView = () => {
+const DesktopView = ({ theme }) => {
   return (
     <>
-      <Header />
+      <Header darkMode={theme === "dark"} />
       <div className="desktop_container">
         <VideoEditor />
       </div>
-      <Footer />
+      <Footer darkMode={theme === "dark"} />
     </>
   );
 };

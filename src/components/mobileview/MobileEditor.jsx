@@ -1,3 +1,5 @@
+// src/components/MobileEditor.js
+
 import React, { useState, useRef, useEffect } from "react";
 import styled from "styled-components";
 import { FFmpeg } from "@ffmpeg/ffmpeg";
@@ -80,7 +82,7 @@ const MobileEditor = () => {
   }, [processing]);
 
   return (
-    <Container>
+    <Container className="container">
       {/* 비디오 파일이 있는 경우 - reupload 활성화 */}
       {videoFile && (
         <ReUploadContainer>
@@ -91,7 +93,10 @@ const MobileEditor = () => {
             style={{ display: "none" }}
             ref={uploadFile}
           />
-          <ReUploadButton onClick={() => uploadFile.current.click()}>
+          <ReUploadButton
+            className="reupload-button"
+            onClick={() => uploadFile.current.click()}
+          >
             비디오 재선택
           </ReUploadButton>
         </ReUploadContainer>
@@ -110,8 +115,12 @@ const MobileEditor = () => {
         />
       ) : (
         <>
-          <Placeholder src={placeholder} alt="비디오를 업로드 해주세요" />
-          <UploadContainer>
+          <Placeholder
+            src={placeholder}
+            alt="비디오를 업로드 해주세요"
+            className="placeholder"
+          />
+          <UploadContainer className="upload-container">
             <input
               onChange={(e) => setVideoFile(e.target.files[0])}
               type="file"
@@ -120,7 +129,10 @@ const MobileEditor = () => {
               ref={uploadFile}
             />
 
-            <UploadButton onClick={() => uploadFile.current.click()}>
+            <UploadButton
+              className="upload-button"
+              onClick={() => uploadFile.current.click()}
+            >
               비디오 업로드하기
             </UploadButton>
           </UploadContainer>
@@ -138,22 +150,20 @@ const MobileEditor = () => {
             }}
           />
 
-          <ButtonContainer>
-            <VideoConversionButton
-              onConversionStart={() => {
-                setProcessing(true);
-              }}
-              onConversionEnd={() => {
-                setProcessing(false);
-                setShowToast(true);
-                setProgress(0);
-              }}
-              ffmpeg={ffmpeg}
-              videoPlayerState={videoPlayerState}
-              sliderValues={sliderValues}
-              videoFile={videoFile}
-            />
-          </ButtonContainer>
+          <VideoConversionButton
+            onConversionStart={() => {
+              setProcessing(true);
+            }}
+            onConversionEnd={() => {
+              setProcessing(false);
+              setShowToast(true);
+              setProgress(0);
+            }}
+            ffmpeg={ffmpeg}
+            videoPlayerState={videoPlayerState}
+            sliderValues={sliderValues}
+            videoFile={videoFile}
+          />
         </>
       )}
 
@@ -174,6 +184,8 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  background-color: var(--background-color);
+  color: var(--text-color);
 `;
 
 const ReUploadContainer = styled.div`
@@ -181,13 +193,15 @@ const ReUploadContainer = styled.div`
   justify-content: flex-end;
   width: 100%;
   margin-bottom: 1.5rem;
+  background-color: var(--background-color);
+  color: var(--text-color);
 `;
 
 const ReUploadButton = styled(BootstrapButton)`
   width: 25%;
   border-radius: 8px;
-  background: #383838;
-  color: #fff;
+  background: var(--button-background);
+  color: var(--button-text);
   padding: 8px;
   font-size: 13px;
   font-weight: 700;
@@ -196,7 +210,7 @@ const ReUploadButton = styled(BootstrapButton)`
   &:hover,
   &:focus,
   &:active {
-    background: #5e88f4 !important;
+    background: var(--button-hover-background) !important;
     border: none !important;
   }
 `;
@@ -204,6 +218,8 @@ const ReUploadButton = styled(BootstrapButton)`
 const Placeholder = styled.img`
   width: 100%;
   margin-bottom: 3rem;
+  background-color: var(--background-color);
+  color: var(--text-color);
 `;
 
 const UploadContainer = styled.div`
@@ -211,13 +227,15 @@ const UploadContainer = styled.div`
   justify-content: center;
   width: 100%;
   margin-bottom: 1rem;
+  background-color: var(--background-color);
+  color: var(--text-color);
 `;
 
 const UploadButton = styled(BootstrapButton)`
   width: 50%;
   border-radius: 8px;
-  background: #383838;
-  color: #fff;
+  background: var(--button-background);
+  color: var(--button-text);
   padding: 16px 8px;
   font-size: 16px;
   font-weight: 700;
@@ -226,30 +244,7 @@ const UploadButton = styled(BootstrapButton)`
   &:hover,
   &:focus,
   &:active {
-    background: #5e88f4 !important;
-    border: none !important;
-  }
-`;
-
-const ButtonContainer = styled.div`
-  display: flex;
-  justify-content: center;
-  width: 100%;
-  margin-bottom: 1rem;
-`;
-
-const StyledVideoConversionButton = styled(VideoConversionButton)`
-  width: 80%;
-  max-width: 300px;
-  border-radius: 8px;
-  padding: 16px 8px;
-  font-size: 16px;
-  font-weight: 700;
-
-  &:hover,
-  &:focus,
-  &:active {
-    background: #5e88f4 !important;
+    background: var(--button-hover-background) !important;
     border: none !important;
   }
 `;

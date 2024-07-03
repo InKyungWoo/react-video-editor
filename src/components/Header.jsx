@@ -1,12 +1,13 @@
 import React from "react";
 import styled from "styled-components";
-import logo from "../assets/logo_light.png";
+import logoLight from "../assets/logo_light.png";
+import logoDark from "../assets/logo_dark.png";
 
-const Header = () => {
+const Header = ({ darkMode }) => {
   return (
     <Container>
       <Content>
-        <Logo src={logo} alt="Video Editor Logo" />
+        <Logo src={darkMode ? logoDark : logoLight} alt="Video Editor Logo" />
         <Nav>
           <NavItem href="#video-edit">비디오 메뉴1</NavItem>
           <NavItem href="#video-edit">비디오 메뉴2</NavItem>

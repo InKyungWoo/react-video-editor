@@ -8,13 +8,19 @@
 
 body {
   font-family: "Noto Sans KR", sans-serif;
-  background-color: #f8f9fa;
+  background-color: var(--background-color);
+  color: var(--text-color);
+  transition: background-color 0.3s, color 0.3s;
 }
 
 #root {
   display: flex;
   flex-direction: column;
   align-items: center;
+  width: 100%;
+  min-height: 100vh;
+  background-color: var(--background-color);
+  color: var(--text-color);
 }
 
 .desktop_container {
@@ -22,7 +28,6 @@ body {
   max-width: 1024px;
   padding: 0 1rem;
   margin: 0 auto;
-  /* background-color: red; */
 }
 
 .mobile_container {
@@ -31,5 +36,37 @@ body {
   padding-left: 1rem;
   padding-right: 1rem;
   margin: 0 auto;
-  /* background-color: red; */
+}
+
+/* Light mode variables */
+:root {
+  --background-color: #f8f9fa;
+  --text-color: #000;
+  --button-background: #383838;
+  --button-text: #fff;
+  --button-hover-background: #0056b3;
+}
+
+/* Dark mode variables */
+body.dark-mode {
+  --background-color: #121212;
+  --text-color: #e0e0e0;
+  --button-background: #6c757d;
+  --button-text: #fff;
+  --button-hover-background: #495057;
+}
+
+.button {
+  margin: 1rem;
+  padding: 0.5rem 1rem;
+  background-color: var(--button-background);
+  color: var(--button-text);
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.button:hover {
+  background-color: var(--button-hover-background);
 }

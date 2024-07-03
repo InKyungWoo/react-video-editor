@@ -11,16 +11,16 @@ const MobileFooter = () => {
           E-mail. chacha_@hufs.ac.kr
         </ContactInfo>
         <Copyright>&copy; 2024 Video Editor. All rights reserved.</Copyright>
+        <Links>
+          <SocialLink href="https://github.com/InKyungWoo">Github</SocialLink>
+          <SocialLink href="https://inkyungwoo.notion.site/Inkyung-s-Blog-e5010485d0164849a105aec5eb80a5c4?pvs=4">
+            Notion
+          </SocialLink>
+          <SocialLink href="https://www.instagram.com/inkyung._.chacha/">
+            Instagram
+          </SocialLink>
+        </Links>
       </Content>
-      <Links>
-        <SocialLink href="https://github.com/InKyungWoo">Github</SocialLink>
-        <SocialLink href="https://inkyungwoo.notion.site/Inkyung-s-Blog-e5010485d0164849a105aec5eb80a5c4?pvs=4">
-          Notion
-        </SocialLink>
-        <SocialLink href="https://www.instagram.com/inkyung._.chacha/">
-          Instagram
-        </SocialLink>
-      </Links>
     </Container>
   );
 };
@@ -32,26 +32,27 @@ const Container = styled.footer`
   width: 100%;
   padding: 1.5rem;
   margin-top: 2rem;
-
-  /* test  */
-  /* background-color: #9595dc; */
+  background-color: var(--background-color);
+  color: var(--text-color);
 `;
 
 const Content = styled.div`
   max-width: 1024px;
-  /* display: flex; */
+  display: flex;
+  flex-direction: column;
   justify-content: space-between;
   align-items: center;
   margin: 0 auto;
+  gap: 10px;
 `;
 
 const ContactInfo = styled.p`
-  color: #888;
+  color: var(--text-color);
   font-size: 0.9rem;
 `;
 
 const Copyright = styled.p`
-  color: #555;
+  color: var(--text-color);
   font-size: 0.9rem;
 `;
 

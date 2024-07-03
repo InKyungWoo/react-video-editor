@@ -1,14 +1,16 @@
 import React from "react";
 import styled from "styled-components";
-import logo from "../../assets/logo_light.png";
 import { Navbar, Nav, Button } from "react-bootstrap";
 
-const MobileHeader = () => {
+import logoLight from "../../assets/logo_light.png";
+import logoDark from "../../assets/logo_dark.png";
+
+const MobileHeader = ({ darkMode }) => {
   return (
     <StyledNavbar bg="light" expand="lg">
       <Container>
         <Navbar.Brand href="#home">
-          <Logo src={logo} alt="Video Editor Logo" />
+          <Logo src={darkMode ? logoDark : logoLight} alt="Video Editor Logo" />
         </Navbar.Brand>
         <NavbarToggleWrapper>
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
@@ -42,7 +44,8 @@ const Logo = styled.img`
 `;
 
 const StyledNavbar = styled(Navbar)`
-  background-color: #fff !important;
+  background-color: var(--background-color) !important;
+  color: var(--text-color);
   position: relative;
 `;
 
