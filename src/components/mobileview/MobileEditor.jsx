@@ -150,20 +150,22 @@ const MobileEditor = () => {
             }}
           />
 
-          <VideoConversionButton
-            onConversionStart={() => {
-              setProcessing(true);
-            }}
-            onConversionEnd={() => {
-              setProcessing(false);
-              setShowToast(true);
-              setProgress(0);
-            }}
-            ffmpeg={ffmpeg}
-            videoPlayerState={videoPlayerState}
-            sliderValues={sliderValues}
-            videoFile={videoFile}
-          />
+          <ButtonContainer>
+            <VideoConversionButton
+              onConversionStart={() => {
+                setProcessing(true);
+              }}
+              onConversionEnd={() => {
+                setProcessing(false);
+                setShowToast(true);
+                setProgress(0);
+              }}
+              ffmpeg={ffmpeg}
+              videoPlayerState={videoPlayerState}
+              sliderValues={sliderValues}
+              videoFile={videoFile}
+            />
+          </ButtonContainer>
         </>
       )}
 
@@ -245,6 +247,29 @@ const UploadButton = styled(BootstrapButton)`
   &:focus,
   &:active {
     background: var(--button-hover-background) !important;
+    border: none !important;
+  }
+`;
+
+const ButtonContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  margin-bottom: 1rem;
+`;
+
+const StyledVideoConversionButton = styled(VideoConversionButton)`
+  width: 80%;
+  max-width: 300px;
+  border-radius: 8px;
+  padding: 16px 8px;
+  font-size: 16px;
+  font-weight: 700;
+
+  &:hover,
+  &:focus,
+  &:active {
+    background: #5e88f4 !important;
     border: none !important;
   }
 `;

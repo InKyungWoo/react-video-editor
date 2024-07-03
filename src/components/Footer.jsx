@@ -44,15 +44,14 @@ const Content = styled.div`
   justify-content: space-between;
   align-items: center;
   margin: 0 auto;
+  color: var(--text-color);
 `;
 
 const ContactInfo = styled.p`
-  color: #888;
   font-size: 0.9rem;
 `;
 
 const Copyright = styled.p`
-  color: #555;
   font-size: 0.9rem;
 `;
 

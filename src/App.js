@@ -3,8 +3,6 @@ import "./App.css";
 import useDeviceType from "./hooks/useDeviceType";
 import DesktopView from "./pages/DesktopView";
 import MobileView from "./pages/MobileView";
-import MobileHeader from "./components/mobileview/MobileHeader";
-import MobileFooter from "./components/mobileview/MobileFooter";
 
 function App() {
   const device = useDeviceType();
@@ -18,8 +16,10 @@ function App() {
 
   return (
     <div id="root" className={theme === "dark" ? "dark-mode" : ""}>
-      <button className="button" onClick={toggleTheme}>
-        {theme === "light" ? "Switch to Dark Mode" : "Switch to Light Mode"}
+      <button className={`button toggle ${theme}`} onClick={toggleTheme}>
+        {theme === "light"
+          ? "Switch to Dark Mode 🌙"
+          : "Switch to Light Mode ☀️"}
       </button>
       {device === "mobile" ? (
         <MobileView theme={theme} />

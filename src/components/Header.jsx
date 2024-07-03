@@ -11,7 +11,7 @@ const Header = ({ darkMode }) => {
         <Nav>
           <NavItem href="#video-edit">비디오 메뉴1</NavItem>
           <NavItem href="#video-edit">비디오 메뉴2</NavItem>
-          <Button>비디오 메뉴 3</Button>
+          {/* <Button>비디오 메뉴 3</Button> */}
         </Nav>
       </Content>
     </Container>

@@ -214,7 +214,7 @@ const UploadContainer = styled.div`
 const UploadButton = styled(BootstrapButton)`
   width: 50%;
   border-radius: 8px;
-  background: #383838;
+  background-color: var(--button-background);
   color: #fff;
   padding: 16px 8px;
   font-size: 16px;

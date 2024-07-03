@@ -20,7 +20,7 @@ const MobileHeader = ({ darkMode }) => {
             <Nav.Link href="#video-edit">비디오 메뉴1</Nav.Link>
             <Nav.Link href="#video-edit">비디오 메뉴2</Nav.Link>
           </Nav>
-          <Button variant="primary">비디오 메뉴 3</Button>
+          {/* <Button variant="primary">비디오 메뉴 3</Button> */}
         </Navbar.Collapse>
       </Container>
     </StyledNavbar>
